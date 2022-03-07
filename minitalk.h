@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minitalk.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjimenez <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cjimenez <cjimenez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 17:07:31 by cjimenez          #+#    #+#             */
-/*   Updated: 2022/03/01 17:31:49 by cjimenez         ###   ########.fr       */
+/*   Updated: 2022/03/07 13:57:35 by cjimenez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define MINITALK_H
 # include "ft_printf/ft_printf.h"
 # include <signal.h>
-#include <sys/types.h>
+#include <stdlib.h>
+#include <sys/signal.h>
+
+int	ft_isdigit(int c);
+int	ft_atoi(const char *str);
 
 #endif

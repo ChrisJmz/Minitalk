@@ -3,25 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   ft_server.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjimenez <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cjimenez <cjimenez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:13:20 by cjimenez          #+#    #+#             */
-/*   Updated: 2022/03/01 18:16:47 by cjimenez         ###   ########.fr       */
+/*   Updated: 2022/03/07 13:43:04 by cjimenez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int main(int ac, char **av)
+static void	message(int sig)
 {
-	struct sigaction sa;
+	static char chr = 0x00;
+	static int	size = 7;
 
-	(void)av;
-	if (ac == 1)
+	if (sig == SIGUSR1)
 	{
-		ft_printf("PID: %d\n", getpid());
+		chr += (1 << size);
+		size--;
 	}
-	sa.sa_flags = SA_SIGINFO;
-	pause();
+	else if (sig == SIGUSR2)
+		size--;
+	if (size < 0)
+	{
+		write(1, &chr, 1);
+		if (!chr)
+			write(1, "\n", 1);
+		chr = 0x00;
+		size = 7;
+	}
+}
+
+int main(void)
+{
+	ft_printf("PID: %d\n", getpid());
+	signal(SIGUSR1, message);
+	signal(SIGUSR2, message);
+	while (1)
+		pause();
 	return (0);
 }
