@@ -12,34 +12,52 @@
 
 #include "minitalk.h"
 
-static void	message(int sig)
+static void	message(int sig, siginfo_t *info, void *context)
 {
-	static char chr = 0x00;
+	(void)context;
+	static char chr[buffer];
 	static int	size = 7;
+	static int i = 0;
 
 	if (sig == SIGUSR1)
 	{
-		chr += (1 << size);
+		chr[i] += (1 << size);
 		size--;
+		kill(info->si_pid, SIGUSR1);
 	}
 	else if (sig == SIGUSR2)
+	{
+		chr[i] += (0 << size);
 		size--;
+		kill(info->si_pid, SIGUSR1);
+	}
 	if (size < 0)
 	{
-		write(1, &chr, 1);
-		if (!chr)
-			write(1, "\n", 1);
-		chr = 0x00;
+		if (chr[i] == '\0')
+		{
+			i = -1;
+			kill(info->si_pid, SIGUSR2);
+			ft_printf("%s\n", chr);
+			while (++i < buffer)
+			{
+				chr[i] = '\0';
+			}
+			i = -1;
+		}
+		i++;
 		size = 7;
 	}
 }
 
 int main(void)
 {
+	struct sigaction	sa_usr;
 	ft_printf("PID: %d\n", getpid());
-	signal(SIGUSR1, message);
-	signal(SIGUSR2, message);
+	sa_usr.sa_flags = SA_SIGINFO;
+	sa_usr.sa_sigaction = message;
+	sigaction(SIGUSR1, &sa_usr, NULL);
+	sigaction(SIGUSR2, &sa_usr, NULL);
 	while (1)
-		pause();
+		;
 	return (0);
 }

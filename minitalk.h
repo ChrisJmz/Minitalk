@@ -16,6 +16,7 @@
 # include <signal.h>
 #include <stdlib.h>
 #include <sys/signal.h>
+# define buffer 100000
 
 int	ft_isdigit(int c);
 int	ft_atoi(const char *str);
