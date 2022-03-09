@@ -6,7 +6,7 @@
 /*   By: cjimenez <cjimenez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:13:20 by cjimenez          #+#    #+#             */
-/*   Updated: 2022/03/07 13:43:04 by cjimenez         ###   ########.fr       */
+/*   Updated: 2022/03/09 15:05:34 by cjimenez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void	message(int sig, siginfo_t *info, void *context)
 int main(void)
 {
 	struct sigaction	sa_usr;
+	
 	ft_printf("PID: %d\n", getpid());
 	sa_usr.sa_flags = SA_SIGINFO;
 	sa_usr.sa_sigaction = message;
