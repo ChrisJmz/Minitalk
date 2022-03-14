@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_server.c                                        :+:      :+:    :+:   */
+/*   ft_server_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cjimenez <cjimenez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:13:20 by cjimenez          #+#    #+#             */
-/*   Updated: 2022/03/14 11:08:19 by cjimenez         ###   ########.fr       */
+/*   Updated: 2022/03/14 11:11:54 by cjimenez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "minitalk_bonus.h"
 
 static void	message(int sig, siginfo_t *info, void *context)
 {
@@ -36,9 +36,12 @@ static void	message(int sig, siginfo_t *info, void *context)
 		if (chr[i] == '\0')
 		{
 			i = -1;
+			kill(info->si_pid, SIGUSR2);
 			ft_printf("%s\n", chr);
 			while (++i < buffer)
+			{
 				chr[i] = '\0';
+			}
 			i = -1;
 		}
 		i++;

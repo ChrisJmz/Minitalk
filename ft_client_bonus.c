@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_client.c                                        :+:      :+:    :+:   */
+/*   ft_client_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cjimenez <cjimenez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:33:37 by cjimenez          #+#    #+#             */
-/*   Updated: 2022/03/14 11:08:25 by cjimenez         ###   ########.fr       */
+/*   Updated: 2022/03/14 11:10:49 by cjimenez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "minitalk_bonus.h"
 
 static int	ft_check(char *str)
 {
@@ -46,11 +46,15 @@ static void	ft_send(int pid, char *msg)
 		while (j > -1)
 		{
 			if (msg[i] >> j & 1)
+			{
 				if (kill(pid, SIGUSR1))
 					ft_error();
-			if (!(msg[i] >> j & 1))
+			}
+			else if (!(msg[i] >> j & 1))
+			{
 				if (kill(pid, SIGUSR2))
 					ft_error();
+			}
 			usleep(10000);
 			j--;
 		}
@@ -61,11 +65,11 @@ static void	ft_send(int pid, char *msg)
 static void	ft_success(int sig, siginfo_t *info, void *context)
 {
 	(void)context;
-	(void)info;
 	if (sig == SIGUSR1)
 		return ;
 	else if (sig == SIGUSR2)
-		return ;
+		ft_printf("\033[32m[SUCESS]\033[0m: signal sent to \033[0;33m[%d]\033[0m\n",
+			info->si_pid);
 }
 
 int	main(int ac, char **av)
