@@ -13,6 +13,9 @@
 NAME1 = server
 NAME2 = client
 
+NAMEBONUS1 = server_bonus
+NAMEBONUS2 = client_bonus
+
 PATH_PRINTF = ./ft_printf/ft_printf.a
 
 SRC_SERVER =	ft_server.c	\
@@ -40,7 +43,7 @@ CC = gcc
 
 RM = rm -rf
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
@@ -54,9 +57,14 @@ $(NAME1):	$(OBJS_SERVER) $(INC)
 $(NAME2):	$(OBJS_CLIENT) $(INC)
 	$(CC) $(CFLAGS) $(OBJS_CLIENT) $(PATH_PRINTF) -o $(NAME2)
 
-bonus:	$(OBJS_SERVER_BONUS) $(OBJS_CLIENT_BONUS)
-	$(CC) $(CFLAGS) $(OBJS_SERVER_BONUS) $(PATH_PRINTF) -o $(NAME1)
-	$(CC) $(CFLAGS) $(OBJS_CLIENT_BONUS) $(PATH_PRINTF) -o $(NAME2)
+bonus:	$(NAMEBONUS1) $(NAMEBONUS2)
+
+$(NAMEBONUS1): $(OBJS_SERVER_BONUS) $(INC_BONUS)
+	make -C ft_printf
+	$(CC) $(CFLAGS) $(OBJS_SERVER_BONUS) $(PATH_PRINTF) -o $(NAMEBONUS1)
+	
+$(NAMEBONUS2): $(OBJS_CLIENT_BONUS) $(INC_BONUS)
+	$(CC) $(CFLAGS) $(OBJS_CLIENT_BONUS) $(PATH_PRINTF) -o $(NAMEBONUS2)
 
 clean:
 	make clean -C ft_printf
@@ -69,6 +77,8 @@ fclean: clean
 	$(RM) $(PATH_PRINTF)
 	$(RM) $(NAME1)
 	$(RM) $(NAME2)
+	$(RM) $(NAMEBONUS1)
+	$(RM) $(NAMEBONUS2)
 
 re: fclean all
 

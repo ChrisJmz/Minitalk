@@ -6,7 +6,7 @@
 /*   By: cjimenez <cjimenez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 17:07:31 by cjimenez          #+#    #+#             */
-/*   Updated: 2022/03/14 11:13:10 by cjimenez         ###   ########.fr       */
+/*   Updated: 2022/03/23 10:00:14 by cjimenez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 # include "ft_printf/ft_printf.h"
 # include <signal.h>
 # include <stdlib.h>
+# include <stddef.h>
 # include <sys/signal.h>
 
-int	ft_isdigit(int c);
-int	ft_atoi(const char *str);
+int		ft_isdigit(int c);
+int64_t	ft_atoi(const char *str);
 
 #endif

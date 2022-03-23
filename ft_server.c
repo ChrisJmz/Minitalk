@@ -12,32 +12,37 @@
 
 #include "minitalk.h"
 
-static void	message(int sig, siginfo_t *info, void *context)
+static void	sigscan(int sig, char *chr, int i, int size)
 {
-	static char	chr[100000];
-	static int	size = 7;
-	static int	i = 0;
-
-	(void)context;
 	if (sig == SIGUSR1)
 	{
 		chr[i] += (1 << size);
 		size--;
-		kill(info->si_pid, SIGUSR1);
 	}
 	else if (sig == SIGUSR2)
 	{
 		chr[i] += (0 << size);
 		size--;
-		kill(info->si_pid, SIGUSR1);
 	}
+}
+
+static void	message(int sig, siginfo_t *info, void *context)
+{
+	static char	chr[1000000];
+	static int	size = 7;
+	static int	i = 0;
+
+	(void)context;
+	sigscan(sig, chr, i, size);
+	kill(info->si_pid, SIGUSR1);
+	size--;
 	if (size < 0)
 	{
 		if (chr[i] == '\0')
 		{
 			i = -1;
 			ft_printf("%s\n", chr);
-			while (++i < buffer)
+			while (++i < 1000000)
 				chr[i] = '\0';
 			i = -1;
 		}

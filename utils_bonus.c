@@ -6,7 +6,7 @@
 /*   By: cjimenez <cjimenez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 13:38:48 by cjimenez          #+#    #+#             */
-/*   Updated: 2022/03/14 11:16:28 by cjimenez         ###   ########.fr       */
+/*   Updated: 2022/03/23 10:01:03 by cjimenez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ int	ft_isdigit(int c)
 	return (0);
 }
 
-int	ft_atoi(const char *str)
+int64_t	ft_atoi(const char *str)
 {
-	int	i;
-	int	s;
-	int	r;
+	int		i;
+	int		s;
+	int64_t	r;
 
 	i = 0;
 	s = 1;

@@ -12,6 +12,20 @@
 
 #include "minitalk_bonus.h"
 
+static void	sigscan(int sig, char *chr, int i, int size)
+{
+	if (sig == SIGUSR1)
+	{
+		chr[i] += (1 << size);
+		size--;
+	}
+	else if (sig == SIGUSR2)
+	{
+		chr[i] += (0 << size);
+		size--;
+	}
+}
+
 static void	message(int sig, siginfo_t *info, void *context)
 {
 	static char	chr[100000];
@@ -19,18 +33,9 @@ static void	message(int sig, siginfo_t *info, void *context)
 	static int	i = 0;
 
 	(void)context;
-	if (sig == SIGUSR1)
-	{
-		chr[i] += (1 << size);
-		size--;
-		kill(info->si_pid, SIGUSR1);
-	}
-	else if (sig == SIGUSR2)
-	{
-		chr[i] += (0 << size);
-		size--;
-		kill(info->si_pid, SIGUSR1);
-	}
+	sigscan(sig, chr, i, size);
+	kill(info->si_pid, SIGUSR1);
+	size--;
 	if (size < 0)
 	{
 		if (chr[i] == '\0')
@@ -38,10 +43,8 @@ static void	message(int sig, siginfo_t *info, void *context)
 			i = -1;
 			kill(info->si_pid, SIGUSR2);
 			ft_printf("%s\n", chr);
-			while (++i < buffer)
-			{
+			while (++i < 100000)
 				chr[i] = '\0';
-			}
 			i = -1;
 		}
 		i++;
