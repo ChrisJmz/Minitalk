@@ -78,9 +78,7 @@ int	main(int ac, char **av)
 
 	sa_usr.sa_flags = SA_SIGINFO;
 	sa_usr.sa_sigaction = ft_success;
-	if (ft_atoi(av[1]) >= 4294967295)
-		ft_error();
-	else if (ac == 3 && ft_check(av[1]) == 0)
+	if (ac == 3 && ft_check(av[1]) == 0 && !(ft_atoi(av[1]) >= 4294967295))
 	{
 		sigaction(SIGUSR1, &sa_usr, NULL);
 		sigaction(SIGUSR2, &sa_usr, NULL);
